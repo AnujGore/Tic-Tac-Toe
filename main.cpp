@@ -1,47 +1,65 @@
 #include <iostream>
 #include "player.h"
 #include "board.h"
+#include "other_functions.h"
+#include <tuple>
 
 Player intro();
+int vectorPosition(std::tuple<char, int> this_tuple);
+bool checkWin(std::vector<int> token_list);
+
+bool Gameplay(std::vector<int> token_list, board this_board, Player main_player, computer second_player);
 
 int main(){
     Player main_player = intro();
 
-    Player computer;
-
-    std::cout<<"here \n";
+    computer comp;
 
     if (main_player.value == 'x')
     {
-        computer.setValue('o');
+        comp.setValue('o');
     }else{
-        computer.setValue('x');
+        comp.setValue('x');
     }
-    
-    std::cout<<"here\n";
 
     board this_board;
-    this_board.printBoard(main_player, computer);
+    std::vector<int> ini_token (9, 10);
+    this_board.printBoard(ini_token, main_player, comp);
+
+    auto status = Gameplay(ini_token, this_board, main_player, comp);
 
     return 0;
 }
 
-Player intro(){
-    
-    char Player_token;
 
-    std::vector<Player> return_vec;
+bool Gameplay(std::vector<int> token_list, board this_board, Player main_player, computer second_player){
 
-    std::cout<<"Welcome to Tic Tac Toe! \n";
-    std::cout<<"Please select your token (x or o): ";
-    std::cin>>Player_token;
+    bool win = false;
 
-    Player mainPlayer;
-    mainPlayer.setValue(Player_token);
+    while(win == false){
+        auto position = main_player.request_pos();
+        token_list = main_player.userMove(token_list, vectorPosition(position));
+        win = checkWin(token_list);
+        this_board.printBoard(token_list, main_player, second_player);
+        if (win)
+        {   
+            std::cout<<std::endl;
+            std::cout<<"You win!\n";
+            break;
+        }
+        std::cout<<std::endl;
 
-    std::cout<<"You have selected: "<<mainPlayer.value<<std::endl;
+        token_list = second_player.computerMove(token_list);
+        win = checkWin(token_list);
+        this_board.printBoard(token_list, main_player, second_player);
+        if (win)
+        {   
+            std::cout<<std::endl;
+            std::cout<<"The computer wins \n";
+            break;
+        }
+        std::cout<<std::endl;
+    }
 
-    std::cout<<"Let's play! \n";
-
-    return mainPlayer;
+    return true;
 }
