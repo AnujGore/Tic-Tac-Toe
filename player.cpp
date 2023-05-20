@@ -1,7 +1,10 @@
 #include "player.h"
+#include "other_functions.h"
 #include <vector>
 #include <tuple>
 #include <iostream>
+
+int vectorPosition(std::tuple<char, int> this_tuple);
 
 Player::Player(){}
 
@@ -21,13 +24,21 @@ std::tuple<char, int> Player::request_pos(){
 
     position = std::make_tuple(row_s, col_i);
 
+
     return position;
 
 }
 
 std::vector<int> Player::userMove(std::vector<int> curr_tokens, int vec_pos){
-    curr_tokens.at(vec_pos) = 1;
-    return curr_tokens;
+    if (curr_tokens.at(vec_pos) == 10)
+    {
+        curr_tokens.at(vec_pos) = 1;
+        return curr_tokens;   
+    }else{
+        std::cout<<"This cell is already filled! Please select another! \n";
+        auto temp_pos = request_pos();
+        return userMove(curr_tokens, vectorPosition(temp_pos));
+    }  
 }
 
 computer::computer(){}
