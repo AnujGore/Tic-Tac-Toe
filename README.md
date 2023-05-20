@@ -9,7 +9,9 @@ This game is also a part of my ongoing series of building arcade-like games (Con
 
 To run this code, run the ./a.exe and follow the instructions given. 
 
-NEED TO DO:
- - Error testing and handling
- - Unit Testing.
+Some snapshots below:
+
+![Alt text](Intro.PNG)
+
+![Alt text](Error%20handle.PNG)
 

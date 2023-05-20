@@ -26,7 +26,6 @@ int main(){
     board this_board;
     std::vector<int> ini_token (9, 10);
     this_board.printBoard(ini_token, main_player, comp);
-    std::cout<<"here \n";
 
     try
     {
